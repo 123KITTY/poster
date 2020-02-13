@@ -209,7 +209,7 @@ init.prototype.registerEvent_mobile = function(){
         //    } else {
         //        that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
         //    }
-        that.imgStatus.scale = transform.scale
+        that.imgStatus.scale = ev.scale + that.imgStatus.scale
 
         // }
         // that.imgStatus.rotate = 
@@ -381,7 +381,7 @@ init.prototype.uploadFile = function(){
     let downloadFile = document.getElementById('downloadFile');
     let posterLink = document.getElementById('poster-link');
     downloadFile.addEventListener('click',function(){
-    	let url = that.canvas.toDataURL();
+    	let url = that.canvas.toDataURL("image/png",1);
     	posterLink.href = url;
     	posterLink.download = 'poster' + new Date().getTime();
     	posterLink.click()
