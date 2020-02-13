@@ -212,7 +212,9 @@ init.prototype.registerEvent_mobile = function(){
         // }
         let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
         that.drawImgByStatus(mXY.x, mXY.y);
-        log.textContent = JSON.stringify(ev.srcEvent) ;
+        log.textContent = ev.scale + ',' + ev.rotation +','+ ev.center;
+
+        // log.textContent = JSON.stringify(ev.srcEvent) ;
         // updateElementTransform()
     }
     var initAngle = 0;
