@@ -200,15 +200,16 @@ init.prototype.registerEvent_mobile = function(){
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
         if(ev.type == 'pinchstart' || ev.type == 'pinchend') {
             initScale = transform.scale || 1;
-            let box = that.windowToCanvas(ev.center.x,ev.center.y);
-            that.lastStatus.mouseX = box.x;
-            that.lastStatus.mouseY = box.y;
+            // let box = that.windowToCanvas(ev.center.x,ev.center.y);
+            // that.lastStatus.mouseX = box.x;
+            // that.lastStatus.mouseY = box.y;
+            // log.textContent = box.x + ',' + box.y;
         }
         if(ev.type == 'pinchmove'){
             that.imgStatus.scale = initScale * ev.scale
             let box = that.windowToCanvas(ev.center.x,ev.center.y);
             that.drawImgByStatus(box.x, box.y);
-            log.textContent = ev.scale;
+            log.textContent = box.x + ',' + box.y;
         }
         // transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
@@ -232,9 +233,9 @@ init.prototype.registerEvent_mobile = function(){
     function onRotate(ev) {
         if(ev.type == 'rotatestart' || ev.type == 'rotateend') {
             initAngle = transform.angle || 0;
-            let box = that.windowToCanvas(ev.center.x,ev.center.y);
-            that.lastStatus.mouseX = box.x;
-            that.lastStatus.mouseY = box.y;
+            // let box = that.windowToCanvas(ev.center.x,ev.center.y);
+            // that.lastStatus.mouseX = box.x;
+            // that.lastStatus.mouseY = box.y;
         }
         if(ev.type == 'rotatemove' ){
             transform.angle = initAngle + ev.rotation;
@@ -349,6 +350,7 @@ init.prototype.drawImgByStatus = function (x, y) {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.save();
         this.ctx.translate(x, y);
+        console.log(x,y)
         this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
         this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
         console.log(this.imgStatus.scale)
