@@ -198,6 +198,7 @@ init.prototype.registerEvent_mobile = function(){
     function onPinch(ev) {
     	// console.log(ev)
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
+
         if(ev.type == 'pinchstart') {
             initScale = transform.scale || 1;
         }
@@ -211,7 +212,8 @@ init.prototype.registerEvent_mobile = function(){
         // }
         let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
         that.drawImgByStatus(mXY.x, mXY.y);
-        updateElementTransform()
+        log.textContent = ev.srcEvent;
+        // updateElementTransform()
     }
     var initAngle = 0;
     // function onRotate(ev) {
