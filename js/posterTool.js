@@ -127,7 +127,7 @@ init.prototype.registerEvent_mobile = function(){
     var mc = new Hammer.Manager(el);
     mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
     // mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
-    mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+    // mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
     mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
@@ -204,18 +204,18 @@ init.prototype.registerEvent_mobile = function(){
         }
         // transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
-    	if(transform.scale > 1) {
-            that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
-       } else {
-           that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
-       }
-        // that.imgStatus.scale = ev.scale + that.imgStatus.scale
+    	// if(transform.scale > 1) {
+     //        that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
+     //   } else {
+     //       that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
+     //   }
+        that.imgStatus.scale = ev.scale// + that.imgStatus.scale
 
         // }
         // that.imgStatus.rotate = 
         let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
         that.drawImgByStatus(mXY.x, mXY.y);
-        log.textContent = that.imgStatus.scale+','+ev.scale;
+        log.textContent = ev.scale;
 
         // log.textContent = JSON.stringify(ev.srcEvent) ;
         // updateElementTransform()
