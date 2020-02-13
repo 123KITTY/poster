@@ -16,7 +16,7 @@ init.prototype.highQulity = function(){
 //绘制背景图片
 init.prototype.draw_bg= function(){
 	this.img=new Image()
-	this.img.src="../images/bg1.png"
+	this.img.src="../images/bg.png"
 	this.img.onload = ()=>{
 		this.setDrawSize();
 		this.canvas.height= this.draw_h;
@@ -210,27 +210,28 @@ init.prototype.registerEvent_mobile = function(){
             that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
         }
         // }
+        // that.imgStatus.rotate = 
         let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
         that.drawImgByStatus(mXY.x, mXY.y);
-        log.textContent = ev.scale + ',' + ev.rotation +','+ ev.center;
+        log.textContent = ev.scale + ',' + ev.rotation +','+ JSON.stringify(ev.center);
 
         // log.textContent = JSON.stringify(ev.srcEvent) ;
         // updateElementTransform()
     }
     var initAngle = 0;
-    // function onRotate(ev) {
-    //     if(ev.type == 'rotatestart') {
-    //         initAngle = transform.angle || 0;
-    //     }
-    //     // el.className = '';
-    //     transform.rz = 1;
-    //     transform.angle = initAngle + ev.rotation;
-    //     that.imgStatus.rotate = transform.angle
-    //     let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
-    //     that.drawImgByStatus(mXY.x, mXY.y);
-    //     requestElementUpdate();
-    //     // logEvent(ev.type);
-    // }
+    function onRotate(ev) {
+        if(ev.type == 'rotatestart') {
+            initAngle = transform.angle || 0;
+        }
+        // el.className = '';
+        transform.rz = 1;
+        transform.angle = initAngle + ev.rotation;
+        that.imgStatus.rotate = transform.angle
+        let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
+        that.drawImgByStatus(mXY.x, mXY.y);
+        // requestElementUpdate();
+        // logEvent(ev.type);
+    }
     // function onSwipe(ev) {
     //     var angle = 50;
     //     transform.ry = (ev.direction & Hammer.DIRECTION_HORIZONTAL) ? 1 : 0;
