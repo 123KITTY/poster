@@ -132,7 +132,7 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove", onPan);
-    // mc.on("rotatestart rotatemove", onRotate);
+    mc.on("rotatestart rotatemove", onRotate);
     mc.on("pinchstart pinchmove", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
@@ -204,11 +204,12 @@ init.prototype.registerEvent_mobile = function(){
         }
         transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
-    	if(transform.scale > 1) {
-        	that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
-        } else {
-            that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
-        }
+    	// if(transform.scale > 1) {
+        // that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
+        //    } else {
+        //        that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
+        //    }
+        that.imgStatus.scale = transform.scale
         // }
         // that.imgStatus.rotate = 
         let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
@@ -227,7 +228,7 @@ init.prototype.registerEvent_mobile = function(){
         transform.rz = 1;
         transform.angle = initAngle + ev.rotation;
         that.imgStatus.rotate = transform.angle
-        let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
+        let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
         that.drawImgByStatus(mXY.x, mXY.y);
         // requestElementUpdate();
         // logEvent(ev.type);
