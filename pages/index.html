@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>海报</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="msapplication-tap-highlight" content="no" />
+        <style type="text/css">
+            *{
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            .canvas{
+                margin: 0 auto;
+                display: block;
+                position: relative;
+                /*border: 1px solid #dddd;*/
+                /*margin-top: 10px;*/
+                background-color: #fff;
+            }
+            .canvas-wrap{
+                display: inline-block;
+                margin: 0 auto;
+                /*border: 1px solid #ededed;*/
+                position: relative;
+            }
+            .canvas-wrap::after{
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                border: 1px solid #ddd;
+                width: 375px;
+                height: 667px;
+            }
+            .saveBtn,
+            .uploadFileBtn{
+                position: absolute;
+                width: 120px;
+                height: 120px;
+                top: 25%;
+                right: 50%;
+                margin-right: -50px;
+                overflow: hidden;
+                z-index: 999;
+                background-color: #fff;
+                padding: 20px;
+            }
+            .hidden{
+                display: none;
+            }
+            .icon-download::after,
+            .icon-camera::after{
+                content: '';
+                position:absolute;
+                background-image: url('../images/icon-camera.png');
+                top: 10px;
+                left: 10px;
+                height: 100px;
+                width: 100px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                background-position: center;
+            }
+            .icon-download::after{
+                background-image: url('../images/icon-download.png');
+            }
+            .toolBar .smallUFBtn{
+                box-shadow: -2px 1px 6px 0px rgba(47, 47, 47, 0.66);
+                border-radius: 100%;
+                transform: scale(0.3);
+                transition: all 0.5s cubic-bezier(0, 0, 0.2, 1);
+                top: 0px;
+                right: calc((100% - 375px)/2 + 36px);
+            }
+            .toolBar .saveBtn{
+                top: 60px;
+                right: calc((100% - 375px)/2 + 36px);
+            }
+            .text-center{
+                text-align: center;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div class="toolBar">
+            <div class="smallUFBtn saveBtn" id="downloadFile">
+                <span class="icon-download"></span>
+            </div>
+             <div class="uploadFileBtn">
+                <label for="uploadFile">
+                    <input class="hidden" id="uploadFile" type="file" name="image" accept="image/*" >
+                    <span class="icon-camera"></span>
+                </label>
+            </div>
+        </div>
+        <div id="log"></div>
+        <!-- <div class="text-center">
+            <span class="canvas-wrap"> -->
+                <canvas id="poster" class="canvas" width="375" height="667"></canvas>
+            <!-- </span>
+        </div> -->
+           <!--  <img src="../images/baby.jpg">
+        <img src="../images/bg1.png"> -->
+        <a href="" download="" id="poster-link" class="hidden"></a>
+        <script type="text/javascript" src="../js/posterTool.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    </body>
+</html>
