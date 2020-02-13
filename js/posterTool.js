@@ -201,6 +201,9 @@ init.prototype.registerEvent_mobile = function(){
 
         if(ev.type == 'pinchstart') {
             initScale = transform.scale || 1;
+            let box = that.windowToCanvas(ev.center.x,ev.center.y);
+            that.lastStatus.mouseX = box.x;
+            that.lastStatus.mouseY = box.y;
         }
         // transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
@@ -224,6 +227,9 @@ init.prototype.registerEvent_mobile = function(){
     function onRotate(ev) {
         if(ev.type == 'rotatestart') {
             initAngle = transform.angle || 0;
+            let box = that.windowToCanvas(ev.center.x,ev.center.y);
+            that.lastStatus.mouseX = box.x;
+            that.lastStatus.mouseY = box.y;
         }
         // el.className = '';
         transform.rz = 1;
