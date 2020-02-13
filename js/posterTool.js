@@ -211,7 +211,7 @@ init.prototype.registerEvent_mobile = function(){
         }
         // }
         // that.imgStatus.rotate = 
-        let mXY = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
+        let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
         that.drawImgByStatus(mXY.x, mXY.y);
         log.textContent = ev.scale + ',' + ev.rotation +','+ JSON.stringify(ev.center);
 
