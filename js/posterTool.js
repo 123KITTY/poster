@@ -132,7 +132,7 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove", onPan);
-    mc.on("rotatestart rotatemove", onRotate);
+    // mc.on("rotatestart rotatemove", onRotate);
     mc.on("pinchstart pinchmove", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
@@ -210,6 +210,7 @@ init.prototype.registerEvent_mobile = function(){
         //        that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
         //    }
         that.imgStatus.scale = transform.scale
+
         // }
         // that.imgStatus.rotate = 
         let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
@@ -313,7 +314,7 @@ init.prototype.drawImgByMove = function(x, y) {
     this.lastStatus.translateY = this.lastStatus.translateY + (y - this.lastStatus.mouseY);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.save();
-    console.log(this.lastStatus.translateX)
+    // console.log(this.lastStatus.translateX)
     // console.log(this.lastStatus.translateX, this.lastStatus.translateY)
     // this.lastStatus.translateX = this.lastStatus.translateX > this.lastStatus.img?Math.abs(this.lastStatus.imgX):this.lastStatus.translateX
     // this.lastStatus.translateY = this.lastStatus.translateY > this.lastStatus.imgY?Math.abs(this.lastStatus.imgY):this.lastStatus.translateY
@@ -338,6 +339,7 @@ init.prototype.drawImgByStatus = function (x, y) {
         this.ctx.translate(x, y);
         this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
         this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
+        console.log(this.imgStatus.scale)
         this.ctx.drawImage(this.pic, imgX, imgY, this.pic.width, this.pic.height);
         this.ctx.restore();
         this.ctx.translate(0, 0);
