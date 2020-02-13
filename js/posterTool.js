@@ -127,12 +127,12 @@ init.prototype.registerEvent_mobile = function(){
     var mc = new Hammer.Manager(el);
     mc.add(new Hammer.Pan({ threshold: 0, pointers: 0 }));
     // mc.add(new Hammer.Swipe()).recognizeWith(mc.get('pan'));
-    // mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
+    mc.add(new Hammer.Rotate({ threshold: 0 })).recognizeWith(mc.get('pan'));
     mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove", onPan);
-    // mc.on("rotatestart rotatemove", onRotate);
+    mc.on("rotatestart rotatemove", onRotate);
     mc.on("pinchstart pinchmove", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
@@ -192,7 +192,7 @@ init.prototype.registerEvent_mobile = function(){
         	let box = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
             that.drawImgByMove(box.x, box.y);
         }
-        updateElementTransform()
+        // updateElementTransform()
     }
     var initScale = 1;
     function onPinch(ev) {
