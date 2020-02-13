@@ -131,15 +131,15 @@ init.prototype.registerEvent_mobile = function(){
     mc.add(new Hammer.Pinch({ threshold: 0 })).recognizeWith([mc.get('pan'), mc.get('rotate')]);
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
-    mc.on("panstart panmove", onPan);
-    mc.on("rotatestart rotatemove", onRotate);
-    mc.on("pinchstart pinchmove", onPinch);
+    mc.on("panstart panmove panend", onPan);
+    mc.on("rotatestart rotatemove rotateend", onRotate);
+    mc.on("pinchstart pinchmove pinchend", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
     // mc.on("doubletap", onDoubleTap);
     mc.on("hammer.input", function(ev) {
         if(ev.isFinal) {
-            resetElement();
+            // resetElement();
         }
     });
     function resetElement() {
@@ -183,7 +183,7 @@ init.prototype.registerEvent_mobile = function(){
     }
     function onPan(ev) {
     	// console.log(ev)
-        if(ev.type=='panstart'){
+        if(ev.type=='panstart' || ev.type=='panend'){
         	let box = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
 			that.lastStatus.mouseX = box.x;
 	        that.lastStatus.mouseY = box.y;
@@ -196,14 +196,19 @@ init.prototype.registerEvent_mobile = function(){
     }
     var initScale = 1;
     function onPinch(ev) {
-    	// console.log(ev)
+    	// console.log(ev)‘
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
-
-        if(ev.type == 'pinchstart') {
+        if(ev.type == 'pinchstart' || ev.type == 'pinchend') {
             initScale = transform.scale || 1;
             let box = that.windowToCanvas(ev.center.x,ev.center.y);
             that.lastStatus.mouseX = box.x;
             that.lastStatus.mouseY = box.y;
+        }
+        if(ev.type == 'pinchmove'){
+            that.imgStatus.scale = initScale * ev.scale
+            let box = that.windowToCanvas(ev.center.x,ev.center.y);
+            that.drawImgByStatus(box.x, box.y);
+            log.textContent = ev.scale;
         }
         // transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
@@ -212,31 +217,32 @@ init.prototype.registerEvent_mobile = function(){
      //   } else {
      //       that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
      //   }
-        that.imgStatus.scale = ev.scale// + that.imgStatus.scale
+        // that.imgStatus.scale = ev.scale// + that.imgStatus.scale
 
         // }
         // that.imgStatus.rotate = 
-        let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-        that.drawImgByStatus(mXY.x, mXY.y);
-        log.textContent = ev.scale;
+        // let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
+        // that.drawImgByStatus(mXY.x, mXY.y);
+        // log.textContent = ev.scale;
 
         // log.textContent = JSON.stringify(ev.srcEvent) ;
         // updateElementTransform()
     }
     var initAngle = 0;
     function onRotate(ev) {
-        if(ev.type == 'rotatestart') {
+        if(ev.type == 'rotatestart' || ev.type == 'rotateend') {
             initAngle = transform.angle || 0;
             let box = that.windowToCanvas(ev.center.x,ev.center.y);
             that.lastStatus.mouseX = box.x;
             that.lastStatus.mouseY = box.y;
         }
+        if(ev.type == 'rotatemove' ){
+            transform.angle = initAngle + ev.rotation;
+            that.imgStatus.rotate = transform.angle
+            let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
+            that.drawImgByStatus(mXY.x, mXY.y);
+        }
         // el.className = '';
-        transform.rz = 1;
-        transform.angle = initAngle + ev.rotation;
-        that.imgStatus.rotate = transform.angle
-        let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-        that.drawImgByStatus(mXY.x, mXY.y);
         // requestElementUpdate();
         // logEvent(ev.type);
     }
