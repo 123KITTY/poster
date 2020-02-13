@@ -4,7 +4,7 @@ function init (){
 	this.draw_bg();
 }
 init.prototype.isMobile = function() {
-    return /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? true : false;
+    return /Android|webOS|iPhone|iPod|ipad|BlackBerry/i.test(navigator.userAgent) ? true : false;
 }
 init.prototype.highQulity = function(){
 	this.ctx.mozImageSmoothingEnabled = true;
