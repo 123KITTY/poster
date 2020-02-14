@@ -137,7 +137,7 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove panend", onPan);
     // mc.on("rotatemove", onRotate);
-    mc.on("pinchstart pinchmove pinchend pinchin pinchout", onPinch);
+    mc.on("pinchstart pinchin pinchout", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
     // mc.on("doubletap", onDoubleTap);
@@ -184,12 +184,12 @@ init.prototype.registerEvent_mobile = function(){
     
     function onPan(ev) {
         // console.log(ev)
-        // that.logEvent(JSON.stringify(ev));
             if(ev.center.x){
             if(ev.type=='panstart'){
                 let box = that.windowToCanvas(ev.center.x,ev.center.y);
                 that.lastStatus.mouseX = box.x;
                 that.lastStatus.mouseY = box.y;
+                
             }
             if(ev.type=='panmove'){
                 let box = that.windowToCanvas(ev.center.x,ev.center.y);
@@ -200,29 +200,24 @@ init.prototype.registerEvent_mobile = function(){
         // updateElementTransform()
     }
     var initScale = 1;
+    var center = that.lastTranslate
     // var center;
     function onPinch(ev) {
         // console.log(this.lastStatus.imgX,x,this.lastStatus.translateX,this.lastStatus.scale)
         // console.log(ev)‘
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
-        
         if(ev.center.x){
             if(ev.type == 'pinchstart') {
-                ev.scale = that.lastStatus.scale;
+                initScale =  that.lastStatus.scale;
             }
-
-            that.imgStatus.scale = ev.scale;
-           // if(ev.type == 'pinchout') {
-           //      that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
-           // }
-           // if(ev.type == 'pinchin') {
-           //     that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
-           // }
-       // if (ev.type == 'pinchmove') {
-            // let box = that.windowToCanvas(center.x, center.y);
-            // that.drawImgByStatus(box.x, box.y,ev.type);
-         }
-        // }
+           if (ev.type == 'pinchin' || ev.type == 'pinchout') {
+             that.imgStatus.scale = initScale * ev.scale;
+                // that.imgStatus.scale = initScale * ev.scale;
+                // that.logEvent(JSON.stringify(ev));
+                // let box = that.windowToCanvas(center.x + that.lastTranslate.x, center.y + that.lastTranslate.y);
+                // that.drawImgByStatus(box.x, box.y);
+            }
+        }
      
         // if(ev.type == 'pinchmove'){
         // that.logEvent('scale:'+ that.imgStatus.scale)
@@ -245,27 +240,27 @@ init.prototype.registerEvent_mobile = function(){
         // log.textContent = JSON.stringify(ev.srcEvent) ;
         // updateElementTransform()
     }
-    var initAngle = 0;
-    function onRotate(ev) {
-    if(ev.center.x){
+    // var initAngle = 0;
+    // function onRotate(ev) {
+    // if(ev.center.x){
 
-        if(ev.type == 'rotatestart') {
-            initAngle = transform.angle || 0;
-            // let box = that.windowToCanvas(ev.center.x,ev.center.y);
-            // that.lastStatus.mouseX = box.x;
-            // that.lastStatus.mouseY = box.y;
-        }
-        if(ev.type == 'rotatemove' ){
-                 transform.angle = initAngle + ev.rotation;
-                that.imgStatus.rotate = transform.angle
-                let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-                that.drawImgByStatus(mXY.x, mXY.y,ev.type);
-            }
-        }
-        // el.className = '';
-        // requestElementUpdate();
-        // logEvent(ev.type);
-    }
+    //     if(ev.type == 'rotatestart') {
+    //         initAngle = transform.angle || 0;
+    //         // let box = that.windowToCanvas(ev.center.x,ev.center.y);
+    //         // that.lastStatus.mouseX = box.x;
+    //         // that.lastStatus.mouseY = box.y;
+    //     }
+    //     if(ev.type == 'rotatemove' ){
+    //             transform.angle = initAngle + ev.rotation;
+    //             that.imgStatus.rotate = transform.angle
+    //             let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
+    //             that.drawImgByStatus(mXY.x, mXY.y,ev.type);
+    //         }
+    //     }
+    //     // el.className = '';
+    //     // requestElementUpdate();
+    //     // logEvent(ev.type);
+    // }
     // function onSwipe(ev) {
     //     var angle = 50;
     //     transform.ry = (ev.direction & Hammer.DIRECTION_HORIZONTAL) ? 1 : 0;
@@ -298,7 +293,7 @@ init.prototype.registerEvent_mobile = function(){
     //     requestElementUpdate();
     //     logEvent(ev.type);
     // }
-    resetElement();
+    // resetElement();
 }
 init.prototype.registerEvent_pc = function(){
     let that = this;
@@ -342,7 +337,7 @@ init.prototype.windowToCanvas = function(x, y){
     };
 }
 init.prototype.drawImgByMove = function(x, y) {
-        // this.logEvent(x, y)
+    // this.logEvent(x, y)
     this.lastStatus.translateX = this.lastStatus.translateX + (x - this.lastStatus.mouseX);
     this.lastStatus.translateY = this.lastStatus.translateY + (y - this.lastStatus.mouseY);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -363,6 +358,8 @@ init.prototype.drawImgByMove = function(x, y) {
     this.ctx.restore();
     this.lastStatus.mouseX = x;
     this.lastStatus.mouseY = y;
+    this.lastStatus.scale = this.imgStatus.scale;
+    this.lastStatus.rotate = this.imgStatus.rotate;
 }
 init.prototype.drawImgByStatus = function (x, y,type) {
 
