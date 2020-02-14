@@ -104,7 +104,6 @@ init.prototype.setDrawSize = function(){
     this.draw_h = draw_h;
 }
 init.prototype.logEvent = function(str) {
-    this.log = document.querySelector("#log");
     this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
     console.log(str)
 }
@@ -122,6 +121,7 @@ init.prototype.registerEvent_mobile = function(){
             window.setTimeout(callback, 1000 / 60);
         };
     })();
+    this.log = document.querySelector("#log");
     // var el = document.querySelector("#hit");
     var START_X = Math.round((window.innerWidth - el.offsetWidth) / 2);
     var START_Y = Math.round((window.innerHeight - el.offsetHeight) / 2);
@@ -136,7 +136,7 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove panend", onPan);
-    mc.on("rotatemove", onRotate);
+    // mc.on("rotatemove", onRotate);
     mc.on("pinchstart pinchmove pinchend pinchin pinchout", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
@@ -207,9 +207,9 @@ init.prototype.registerEvent_mobile = function(){
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
         
         if(ev.center.x){
-            // if(ev.type == 'pinchstart') {
-            //     ev.scale = that.lastStatus.scale;
-            // }
+            if(ev.type == 'pinchstart') {
+                ev.scale = that.lastStatus.scale;
+            }
 
             that.imgStatus.scale = ev.scale;
            // if(ev.type == 'pinchout') {
@@ -219,8 +219,8 @@ init.prototype.registerEvent_mobile = function(){
            //     that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
            // }
        // if (ev.type == 'pinchmove') {
-            let box = that.windowToCanvas(ev.center.x,ev.center.x);
-            that.drawImgByStatus(box.x, box.y,ev.type);
+            // let box = that.windowToCanvas(center.x, center.y);
+            // that.drawImgByStatus(box.x, box.y,ev.type);
          }
         // }
      
@@ -257,7 +257,7 @@ init.prototype.registerEvent_mobile = function(){
         }
         if(ev.type == 'rotatemove' ){
                  transform.angle = initAngle + ev.rotation;
-            that.imgStatus.rotate = transform.angle
+                that.imgStatus.rotate = transform.angle
                 let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
                 that.drawImgByStatus(mXY.x, mXY.y,ev.type);
             }
@@ -365,12 +365,13 @@ init.prototype.drawImgByMove = function(x, y) {
     this.lastStatus.mouseY = y;
 }
 init.prototype.drawImgByStatus = function (x, y,type) {
-        this.logEvent(type)
-        this.logEvent(this.lastStatus.imgX)
-        this.logEvent(x)
-        this.logEvent(this.lastStatus.translateX)
-        this.logEvent(this.lastStatus.scale)
-        this.logEvent(JSON.stringify(this.lastStatus))
+
+        // this.logEvent(type)
+        // this.logEvent(this.lastStatus.imgX)
+        // this.logEvent(x)
+        // this.logEvent(this.lastStatus.translateX)
+        // this.logEvent(this.lastStatus.scale)
+        // this.logEvent(JSON.stringify(this.lastStatus))
         let imgX = this.lastStatus.imgX - (x - this.lastStatus.translateX) / this.lastStatus.scale;
         let imgY = this.lastStatus.imgY - (y - this.lastStatus.translateY) / this.lastStatus.scale;
         // this.logEvent(imgX)
