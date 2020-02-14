@@ -103,10 +103,10 @@ init.prototype.setDrawSize = function(){
     this.draw_w = draw_w;
     this.draw_h = draw_h;
 }
-// init.prototype.logEvent = function(str) {
-//     this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
-//     console.log(str)
-// }
+init.prototype.logEvent = function(str) {
+    this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
+    console.log(str)
+}
 init.prototype.registerEvent_mobile = function(){
     // this.hammer = new Hammer(this.canvas);
     // this.hammer.on('press', function(e) {
@@ -220,7 +220,7 @@ init.prototype.registerEvent_mobile = function(){
            // }
        // if (ev.type == 'pinchmove') {
             let box = that.windowToCanvas(center.x, center.y);
-            that.drawImgByStatus(box.x, box.y,ev.type);
+            that.drawImgByStatus(box.x, box.y);
          }
         // }
      
@@ -259,7 +259,7 @@ init.prototype.registerEvent_mobile = function(){
                  transform.angle = initAngle + ev.rotation;
             that.imgStatus.rotate = transform.angle
                 let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-                that.drawImgByStatus(mXY.x, mXY.y,ev.type);
+                that.drawImgByStatus(mXY.x, mXY.y);
             }
         }
         // el.className = '';
@@ -364,14 +364,13 @@ init.prototype.drawImgByMove = function(x, y) {
     this.lastStatus.mouseX = x;
     this.lastStatus.mouseY = y;
 }
-init.prototype.drawImgByStatus = function (x, y,type) {
-
-        // this.logEvent(type)
-        // this.logEvent(this.lastStatus.imgX)
-        // this.logEvent(x)
-        // this.logEvent(this.lastStatus.translateX)
-        // this.logEvent(this.lastStatus.scale)
-        // this.logEvent(JSON.stringify(this.lastStatus))
+init.prototype.drawImgByStatus = function (x, y) {
+        this.logEvent(type)
+        this.logEvent(this.lastStatus.imgX)
+        this.logEvent(x)
+        this.logEvent(this.lastStatus.translateX)
+        this.logEvent(this.lastStatus.scale)
+        this.logEvent(JSON.stringify(this.lastStatus))
         let imgX = this.lastStatus.imgX - (x - this.lastStatus.translateX) / this.lastStatus.scale;
         let imgY = this.lastStatus.imgY - (y - this.lastStatus.translateY) / this.lastStatus.scale;
         // this.logEvent(imgX)
