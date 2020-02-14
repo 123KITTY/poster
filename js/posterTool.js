@@ -1,40 +1,40 @@
 function init (){
-	this.canvas=document.getElementById("poster");
-	this.ctx = this.canvas.getContext("2d");
-	this.draw_bg();
+    this.canvas=document.getElementById("poster");
+    this.ctx = this.canvas.getContext("2d");
+    this.draw_bg();
 }
 init.prototype.isMobile = function() {
     return /Android|webOS|iPhone|iPod|ipad|BlackBerry/i.test(navigator.userAgent) ? true : false;
 }
 init.prototype.highQulity = function(){
-	this.ctx.mozImageSmoothingEnabled = true;
-	this.ctx.webkitImageSmoothingEnabled = true;
-	this.ctx.imageSmoothingQuality = "high";
-	this.ctx.msImageSmoothingEnabled = true;
-	this.ctx.imageSmoothingEnabled = true;
+    this.ctx.mozImageSmoothingEnabled = true;
+    this.ctx.webkitImageSmoothingEnabled = true;
+    this.ctx.imageSmoothingQuality = "high";
+    this.ctx.msImageSmoothingEnabled = true;
+    this.ctx.imageSmoothingEnabled = true;
 }
 //绘制背景图片
 init.prototype.draw_bg= function(){
-	this.img=new Image()
-	this.img.src="../images/bg.png"
-	this.img.onload = ()=>{
-		this.setDrawSize();
-		this.canvas.height= this.draw_h;
-		this.canvas.width= this.draw_w;
-		this.highQulity();
+    this.img=new Image()
+    this.img.src="../images/bg1.png"
+    this.img.onload = ()=>{
+        this.setDrawSize();
+        this.canvas.height= this.draw_h;
+        this.canvas.width= this.draw_w;
+        this.highQulity();
         this.ctx.drawImage(this.img,0,0,this.draw_w,this.draw_h);
-	}
+    }
 }
 // 假设 上传从文件夹中选择了图片 TODO:上传接口
 init.prototype.draw_pic = function(){
     let that = this;
-	this.config = {
-        width : that.canvas.width,        // 设置canvas的宽
-        height : that.canvas.height,        // 设置canvas的高
-        imgSrc : that.imgSrc,    // 图片路径
+    this.config = {
+        width : this.canvas.width,        // 设置canvas的宽
+        height : this.canvas.height,        // 设置canvas的高
+        imgSrc : this.imgSrc,    // 图片路径
         maxScale : 4.0,        // 最大放大倍数
         minScale : 0.2,        // 最小放大倍数
-        step : 0.1            // 每次放大、缩小 倍数的变化值
+        step : 0.1           // 每次放大、缩小 倍数的变化值
     };
     
     this.isMove = false;// 标记是否移动事件
@@ -61,63 +61,67 @@ init.prototype.draw_pic = function(){
         this.drawImgByStatus(this.canvas.width / 2, this.canvas.height / 2);
     };
     if(this.isMobile()){
-    	this.registerEvent_mobile();
+        this.registerEvent_mobile();
     }else{
-		this.registerEvent_pc();
+        this.registerEvent_pc();
     }
 }
 //背景图片大小
 init.prototype.setDrawSize = function(){
-	// 图片宽度 手机宽度，高度不变 保持水平垂直	居中。
-	//如果图片宽度 小于 手机宽度 ： 图片宽度不变，
-	//如果 比例高度 小于等于 手机高度 && 小于等于图片高度，高度为比例高度 ；如果比例高度 大于 手机高度 且 大于 图片高度 则图片高度 = 等于手机高度 宽度为比例宽度 ：保持水平垂直居中。
-	let win_w = window.innerWidth;
-	let win_h = window.innerHeight;
-	let img_w = this.img.width;
-	let img_h = this.img.height;
-	let scale_value = win_w/img_w;//缩放比例
-	let scale_h = win_h/scale_value;//比例高度
-	let draw_h;
-	let draw_w;
-	if (img_w >= win_w) {
-		draw_w = win_w; 
-		if(img_h <= scale_h){
-			draw_h = img_h;
-		}else{
-			draw_h = scale_h;
-		}
-	}else{
-		draw_w = img_w;
-	}
-	if (img_h<=win_h) {
-		draw_h = img_h;
-	}else{
-		draw_h = win_h;
-		if (img_w >= win_w) {
-			draw_w = win_w;
-		}else{
-			draw_w = img_w;
-		}
-	}
-	
-	this.draw_w = draw_w;
-	this.draw_h = draw_h;
+    // 图片宽度 手机宽度，高度不变 保持水平垂直    居中。
+    //如果图片宽度 小于 手机宽度 ： 图片宽度不变，
+    //如果 比例高度 小于等于 手机高度 && 小于等于图片高度，高度为比例高度 ；如果比例高度 大于 手机高度 且 大于 图片高度 则图片高度 = 等于手机高度 宽度为比例宽度 ：保持水平垂直居中。
+    let win_w = window.innerWidth;
+    let win_h = window.innerHeight;
+    let img_w = this.img.width;
+    let img_h = this.img.height;
+    let scale_value = win_w/img_w;//缩放比例
+    let scale_h = win_h/scale_value;//比例高度
+    let draw_h;
+    let draw_w;
+    if (img_w >= win_w) {
+        draw_w = win_w; 
+        if(img_h <= scale_h){
+            draw_h = img_h;
+        }else{
+            draw_h = scale_h;
+        }
+    }else{
+        draw_w = img_w;
+    }
+    if (img_h<=win_h) {
+        draw_h = img_h;
+    }else{
+        draw_h = win_h;
+        if (img_w >= win_w) {
+            draw_w = win_w;
+        }else{
+            draw_w = img_w;
+        }
+    }
+    
+    this.draw_w = draw_w;
+    this.draw_h = draw_h;
+}
+init.prototype.logEvent = function(str) {
+    this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
+    console.log(str)
 }
 init.prototype.registerEvent_mobile = function(){
-	// this.hammer = new Hammer(this.canvas);
-	// this.hammer.on('press', function(e) {
-	//   e.target.classList.toggle('expand');
-	//   console.log("You're pressing me!");
-	//   console.log(e);
-	// });
+    // this.hammer = new Hammer(this.canvas);
+    // this.hammer.on('press', function(e) {
+    //   e.target.classList.toggle('expand');
+    //   console.log("You're pressing me!");
+    //   console.log(e);
+    // });
     let that = this;
-	var el = this.canvas;
+    var el = this.canvas;
     var reqAnimationFrame = (function () {
         return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
             window.setTimeout(callback, 1000 / 60);
         };
     })();
-    var log = document.querySelector("#log");
+    this.log = document.querySelector("#log");
     // var el = document.querySelector("#hit");
     var START_X = Math.round((window.innerWidth - el.offsetWidth) / 2);
     var START_Y = Math.round((window.innerHeight - el.offsetHeight) / 2);
@@ -132,8 +136,8 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove panend", onPan);
-    mc.on("rotatestart rotatemove rotateend", onRotate);
-    mc.on("pinchstart pinchmove pinchend", onPinch);
+    // mc.on("rotatemove", onRotate);
+    mc.on("pinchstart pinchmove pinchend pinchin pinchout", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
     // mc.on("doubletap", onDoubleTap);
@@ -143,7 +147,7 @@ init.prototype.registerEvent_mobile = function(){
         }
     });
     function resetElement() {
-        el.className = 'animate';
+        // el.className = 'animate';
         transform = {
             translate: { x: START_X, y: START_Y },
             scale: 1,
@@ -164,8 +168,8 @@ init.prototype.registerEvent_mobile = function(){
             'rotate3d('+ transform.rx +','+ transform.ry +','+ transform.rz +','+  transform.angle + 'deg)'
         ];
         value = value.join(" ");
-        logEvent(value)
-        log.textContent = value;
+        // that.logEvent(value)
+        // log.textContent = value;
         // el.style.webkitTransform = value;
         // el.style.mozTransform = value;
         // el.style.transform = value;
@@ -177,47 +181,59 @@ init.prototype.registerEvent_mobile = function(){
             ticking = true;
         }
     }
-    function logEvent(str) {
-        //log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
-        console.log(str)
-    }
+    
     function onPan(ev) {
-    	// console.log(ev)
-        if(ev.type=='panstart' || ev.type=='panend'){
-        	let box = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
-			that.lastStatus.mouseX = box.x;
-	        that.lastStatus.mouseY = box.y;
+        // console.log(ev)
+        // that.logEvent(JSON.stringify(ev));
+            if(ev.center.x){
+            if(ev.type=='panstart'){
+                let box = that.windowToCanvas(ev.center.x,ev.center.y);
+                that.lastStatus.mouseX = box.x;
+                that.lastStatus.mouseY = box.y;
+            }
+            if(ev.type=='panmove'){
+                let box = that.windowToCanvas(ev.center.x,ev.center.y);
+                that.drawImgByMove(box.x, box.y);
+            }
         }
-        if(ev.type=='panmove'){
-        	let box = that.windowToCanvas(ev.srcEvent.clientX,ev.srcEvent.clientY);
-            that.drawImgByMove(box.x, box.y);
-        }
+        
         // updateElementTransform()
     }
     var initScale = 1;
+    var center;
     function onPinch(ev) {
-    	// console.log(ev)‘
+        // console.log(this.lastStatus.imgX,x,this.lastStatus.translateX,this.lastStatus.scale)
+        // console.log(ev)‘
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
-        if(ev.type == 'pinchstart' || ev.type == 'pinchend') {
-            initScale = transform.scale || 1;
-            // let box = that.windowToCanvas(ev.center.x,ev.center.y);
-            // that.lastStatus.mouseX = box.x;
-            // that.lastStatus.mouseY = box.y;
-            // log.textContent = box.x + ',' + box.y;
-        }
-        if(ev.type == 'pinchmove'){
-            that.imgStatus.scale = initScale * ev.scale
-            let box = that.windowToCanvas(ev.center.x,ev.center.y);
-            that.drawImgByStatus(box.x, box.y);
-            log.textContent = box.x + ',' + box.y;
-        }
+        
+        if(ev.center.x){
+            if(ev.type == 'pinchstart') {
+                ev.scale = that.lastStatus.scale;
+            }
+
+            that.imgStatus.scale = ev.scale;
+           // if(ev.type == 'pinchout') {
+           //      that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
+           // }
+           // if(ev.type == 'pinchin') {
+           //     that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
+           // }
+       // if (ev.type == 'pinchmove') {
+            let box = that.windowToCanvas(center.x, center.y);
+            that.drawImgByStatus(box.x, box.y,ev.type);
+         }
+        // }
+     
+        // if(ev.type == 'pinchmove'){
+        // that.logEvent('scale:'+ that.imgStatus.scale)
+           
+        // }
         // transform.scale = initScale * ev.scale;
         // if(ev.type == 'pinchmove'){
-    	// if(transform.scale > 1) {
-     //        that.imgStatus.scale = (that.imgStatus.scale >= that.config.maxScale) ? that.config.maxScale : that.imgStatus.scale + that.config.step;
-     //   } else {
-     //       that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
-     //   }
+        
+        // let box = that.windowToCanvas(ev.center.x,ev.center.y);
+        // that.drawImgByStatus(box.x, box.y);
+        // log.textContent = box.x + ',' + box.y;
         // that.imgStatus.scale = ev.scale// + that.imgStatus.scale
 
         // }
@@ -231,17 +247,20 @@ init.prototype.registerEvent_mobile = function(){
     }
     var initAngle = 0;
     function onRotate(ev) {
-        if(ev.type == 'rotatestart' || ev.type == 'rotateend') {
+    if(ev.center.x){
+
+        if(ev.type == 'rotatestart') {
             initAngle = transform.angle || 0;
             // let box = that.windowToCanvas(ev.center.x,ev.center.y);
             // that.lastStatus.mouseX = box.x;
             // that.lastStatus.mouseY = box.y;
         }
         if(ev.type == 'rotatemove' ){
-            transform.angle = initAngle + ev.rotation;
+                 transform.angle = initAngle + ev.rotation;
             that.imgStatus.rotate = transform.angle
-            let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-            that.drawImgByStatus(mXY.x, mXY.y);
+                let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
+                that.drawImgByStatus(mXY.x, mXY.y,ev.type);
+            }
         }
         // el.className = '';
         // requestElementUpdate();
@@ -282,8 +301,8 @@ init.prototype.registerEvent_mobile = function(){
     resetElement();
 }
 init.prototype.registerEvent_pc = function(){
-	let that = this;
-	 this.canvas.onmousedown = function(e){
+    let that = this;
+     this.canvas.onmousedown = function(e){
         that.isMove = true;
         this.style.cursor = "move";
         let box = that.windowToCanvas(e.clientX, e.clientY);
@@ -323,6 +342,7 @@ init.prototype.windowToCanvas = function(x, y){
     };
 }
 init.prototype.drawImgByMove = function(x, y) {
+        // this.logEvent(x, y)
     this.lastStatus.translateX = this.lastStatus.translateX + (x - this.lastStatus.mouseX);
     this.lastStatus.translateY = this.lastStatus.translateY + (y - this.lastStatus.mouseY);
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -335,7 +355,7 @@ init.prototype.drawImgByMove = function(x, y) {
     this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
     this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
     this.ctx.drawImage(this.pic, this.lastStatus.imgX, this.lastStatus.imgY, this.pic.width, this.pic.height);
-  	this.ctx.restore();
+    this.ctx.restore();
     this.ctx.translate(0, 0);
     this.ctx.rotate(0);
     this.ctx.scale(1,1);
@@ -344,16 +364,22 @@ init.prototype.drawImgByMove = function(x, y) {
     this.lastStatus.mouseX = x;
     this.lastStatus.mouseY = y;
 }
-init.prototype.drawImgByStatus = function (x, y) {
+init.prototype.drawImgByStatus = function (x, y,type) {
+
+        // this.logEvent(type)
+        // this.logEvent(this.lastStatus.imgX)
+        // this.logEvent(x)
+        // this.logEvent(this.lastStatus.translateX)
+        // this.logEvent(this.lastStatus.scale)
+        // this.logEvent(JSON.stringify(this.lastStatus))
         let imgX = this.lastStatus.imgX - (x - this.lastStatus.translateX) / this.lastStatus.scale;
         let imgY = this.lastStatus.imgY - (y - this.lastStatus.translateY) / this.lastStatus.scale;
+        // this.logEvent(imgX)
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.save();
         this.ctx.translate(x, y);
-        console.log(x,y)
         this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
         this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
-        console.log(this.imgStatus.scale)
         this.ctx.drawImage(this.pic, imgX, imgY, this.pic.width, this.pic.height);
         this.ctx.restore();
         this.ctx.translate(0, 0);
@@ -361,22 +387,22 @@ init.prototype.drawImgByStatus = function (x, y) {
         this.ctx.scale(1,1);
         this.ctx.drawImage(this.img,0,0,this.draw_w,this.draw_h);
         this.ctx.restore();
-        let that = this;
+        // let that = this;
         this.lastStatus = {
             'imgX' : imgX,
             'imgY' : imgY,
             'translateX' : x,
             'translateY' : y,
-            'scale' : that.imgStatus.scale,
-            'rotate' : that.imgStatus.rotate
+            'scale' : this.imgStatus.scale,
+            'rotate' : this.imgStatus.rotate
         };
 }
 init.prototype.uploadFile = function(){
-	let uploadFile = document.getElementById('uploadFile');
-	let uploadFileBtn = document.getElementsByClassName('uploadFileBtn')[0];
-	let that = this;
-	uploadFile.addEventListener('change', function() {
-		if(!this.files.length) return
+    let uploadFile = document.getElementById('uploadFile');
+    let uploadFileBtn = document.getElementsByClassName('uploadFileBtn')[0];
+    let that = this;
+    uploadFile.addEventListener('change', function() {
+        if(!this.files.length) return
         var file = this.files[0];                
         // 确认选择的文件是图片                
         if(file.type.indexOf("image") == 0) {
@@ -394,11 +420,12 @@ init.prototype.uploadFile = function(){
     })
     let downloadFile = document.getElementById('downloadFile');
     let posterLink = document.getElementById('poster-link');
+    let posterImg = document.getElementById('poster-img');
     downloadFile.addEventListener('click',function(){
-    	let url = that.canvas.toDataURL("image/png",1);
-    	posterLink.href = url;
-    	posterLink.download = 'poster' + new Date().getTime();
-    	posterLink.click()
+        let url = that.canvas.toDataURL("image/png",1);
+        posterImg.src = url;
+        posterImg.classList.remove('hidden');
+        that.canvas.classList.add('hidden');
     })
 }
 let poster = new init();

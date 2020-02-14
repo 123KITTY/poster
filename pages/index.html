@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html debug=true>
+<html>
     <head>
         <meta charset="UTF-8">
         <title>海报</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <meta name="msapplication-tap-highlight" content="no" />
-        <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
         <style type="text/css">
             *{
                 padding: 0;
                 margin: 0;
                 box-sizing: border-box;
             }
+            .poster,
             .canvas{
                 margin: 0 auto;
                 display: block;
@@ -97,10 +97,11 @@
                 </label>
             </div>
         </div>
-        <div id="log"></div>
+        <div id="log">1111</div>
         <!-- <div class="text-center">
             <span class="canvas-wrap"> -->
                 <canvas id="poster" class="canvas" width="375" height="667"></canvas>
+                <img src="" class="hidden poster" id="poster-img">
             <!-- </span>
         </div> -->
            <!--  <img src="../images/baby.jpg">
