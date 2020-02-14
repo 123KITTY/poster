@@ -1,6 +1,7 @@
 function init (){
     this.canvas=document.getElementById("poster");
     this.ctx = this.canvas.getContext("2d");
+    this.log = document.querySelector("#log");
     this.draw_bg();
 }
 init.prototype.isMobile = function() {
@@ -121,7 +122,6 @@ init.prototype.registerEvent_mobile = function(){
             window.setTimeout(callback, 1000 / 60);
         };
     })();
-    this.log = document.querySelector("#log");
     // var el = document.querySelector("#hit");
     var START_X = Math.round((window.innerWidth - el.offsetWidth) / 2);
     var START_Y = Math.round((window.innerHeight - el.offsetHeight) / 2);
@@ -200,7 +200,7 @@ init.prototype.registerEvent_mobile = function(){
         // updateElementTransform()
     }
     var initScale = 1;
-    var center;
+    // var center;
     function onPinch(ev) {
         // console.log(this.lastStatus.imgX,x,this.lastStatus.translateX,this.lastStatus.scale)
         // console.log(ev)‘
