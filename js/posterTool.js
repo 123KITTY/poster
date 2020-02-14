@@ -104,6 +104,7 @@ init.prototype.setDrawSize = function(){
     this.draw_h = draw_h;
 }
 init.prototype.logEvent = function(str) {
+    this.log = document.querySelector("#log");
     this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
     console.log(str)
 }
@@ -121,7 +122,6 @@ init.prototype.registerEvent_mobile = function(){
             window.setTimeout(callback, 1000 / 60);
         };
     })();
-    this.log = document.querySelector("#log");
     // var el = document.querySelector("#hit");
     var START_X = Math.round((window.innerWidth - el.offsetWidth) / 2);
     var START_Y = Math.round((window.innerHeight - el.offsetHeight) / 2);
