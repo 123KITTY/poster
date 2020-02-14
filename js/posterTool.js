@@ -207,9 +207,9 @@ init.prototype.registerEvent_mobile = function(){
         // console.log(ev.srcEvent.clientX,ev.srcEvent.clientY)
         
         if(ev.center.x){
-            if(ev.type == 'pinchstart') {
-                ev.scale = that.lastStatus.scale;
-            }
+            // if(ev.type == 'pinchstart') {
+            //     ev.scale = that.lastStatus.scale;
+            // }
 
             that.imgStatus.scale = ev.scale;
            // if(ev.type == 'pinchout') {
@@ -220,7 +220,7 @@ init.prototype.registerEvent_mobile = function(){
            // }
        // if (ev.type == 'pinchmove') {
             let box = that.windowToCanvas(center.x, center.y);
-            that.drawImgByStatus(box.x, box.y);
+            that.drawImgByStatus(box.x, box.y,ev.type);
          }
         // }
      
@@ -259,7 +259,7 @@ init.prototype.registerEvent_mobile = function(){
                  transform.angle = initAngle + ev.rotation;
             that.imgStatus.rotate = transform.angle
                 let mXY = that.windowToCanvas(ev.center.x,ev.center.y);
-                that.drawImgByStatus(mXY.x, mXY.y);
+                that.drawImgByStatus(mXY.x, mXY.y,ev.type);
             }
         }
         // el.className = '';
@@ -364,7 +364,7 @@ init.prototype.drawImgByMove = function(x, y) {
     this.lastStatus.mouseX = x;
     this.lastStatus.mouseY = y;
 }
-init.prototype.drawImgByStatus = function (x, y) {
+init.prototype.drawImgByStatus = function (x, y,type) {
         this.logEvent(type)
         this.logEvent(this.lastStatus.imgX)
         this.logEvent(x)
