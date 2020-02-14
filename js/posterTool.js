@@ -421,11 +421,20 @@ init.prototype.uploadFile = function(){
     let downloadFile = document.getElementById('downloadFile');
     let posterLink = document.getElementById('poster-link');
     let posterImg = document.getElementById('poster-img');
+    let saveTip  = document.getElementById('save-tip');
+    let timer = null
     downloadFile.addEventListener('click',function(){
         let url = that.canvas.toDataURL("image/png",1);
         posterImg.src = url;
         posterImg.classList.remove('hidden');
         that.canvas.classList.add('hidden');
+        downloadFile.classList.add('hidden');
+        uploadFileBtn.classList.add('hidden');
+        saveTip.classList.remove('hidden')
+        clearTimeout(timer)
+            timer = setTimeout(()=>{
+            saveTip.classList.add('hidden');
+        },2000);
     })
 }
 let poster = new init();

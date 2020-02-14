@@ -89,10 +89,25 @@
             .text-center{
                 text-align: center;
             }
+            .saveTip{
+               position: absolute;
+                z-index: 110;
+                background-color: rgba(0,0,0,0.2);
+                transform: translate(-50%,-50%);
+                /* width: 100%; */
+                /* height: 100%; */
+                left: 50%;
+                top: 50%;
+                padding: 10px;
+                border-radius: 6px;
+                color: #ffffff;
+
+            }
 
         </style>
     </head>
     <body>
+        <div id="save-tip" class="saveTip hidden">长按图片保存</div>
         <div class="toolBar">
             <div class="smallUFBtn saveBtn" id="downloadFile">
                 <span class="icon-download"></span>
