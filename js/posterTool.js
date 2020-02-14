@@ -136,7 +136,7 @@ init.prototype.registerEvent_mobile = function(){
     // mc.add(new Hammer.Tap({ event: 'doubletap', taps: 2 }));
     // mc.add(new Hammer.Tap());
     mc.on("panstart panmove panend", onPan);
-    // mc.on("rotatemove", onRotate);
+    mc.on("rotatemove", onRotate);
     mc.on("pinchstart pinchmove pinchend pinchin pinchout", onPinch);
     // mc.on("swipe", onSwipe);
     // mc.on("tap", onTap);
@@ -219,7 +219,7 @@ init.prototype.registerEvent_mobile = function(){
            //     that.imgStatus.scale = (that.imgStatus.scale <= that.config.minScale) ? that.config.minScale : that.imgStatus.scale - that.config.step;
            // }
        // if (ev.type == 'pinchmove') {
-            let box = that.windowToCanvas(center.x, center.y);
+            let box = that.windowToCanvas(ev.center.x,ev.center.x);
             that.drawImgByStatus(box.x, box.y,ev.type);
          }
         // }
