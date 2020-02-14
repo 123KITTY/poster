@@ -103,10 +103,10 @@ init.prototype.setDrawSize = function(){
     this.draw_w = draw_w;
     this.draw_h = draw_h;
 }
-init.prototype.logEvent = function(str) {
-    this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
-    console.log(str)
-}
+// init.prototype.logEvent = function(str) {
+//     this.log.insertBefore(document.createTextNode(str +"\n"), log.firstChild);
+//     console.log(str)
+// }
 init.prototype.registerEvent_mobile = function(){
     // this.hammer = new Hammer(this.canvas);
     // this.hammer.on('press', function(e) {
