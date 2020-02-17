@@ -17,7 +17,7 @@ init.prototype.highQulity = function(){
 //绘制背景图片
 init.prototype.draw_bg= function(){
     this.img=new Image()
-    this.img.src="../images/bg1.png"
+    this.img.src="../images/bg.png"
     this.img.onload = ()=>{
         this.setDrawSize();
         this.canvas.height= this.draw_h;
