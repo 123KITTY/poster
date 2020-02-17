@@ -44,7 +44,9 @@ init.prototype.draw_pic = function(){
     
     this.imgStatus = {
         'scale' : 1.0,
-        'rotate' : 0
+        'rotate' : 0,
+        'baseRotate':0
+
     };
     this.lastStatus = {};
     this.currentStatus = {};
@@ -52,7 +54,7 @@ init.prototype.draw_pic = function(){
     this.pic.src = this.config.imgSrc;
     this.pic.onload = () =>{
         var orient = this.getPhotoOrientation(this.pic);
-        this.rotateImg(orient)
+        this.imgStatus.baseRotate = this.rotateImg(orient);
         this.lastStatus = {
             "imgX" : -1 * that.pic.width / 2,
             "imgY" : -1 * that.pic.height / 2,
@@ -61,8 +63,7 @@ init.prototype.draw_pic = function(){
             'translateX' : that.canvas.width / 2,
             'translateY' : that.canvas.height /2,
             'scale' : 1.0,
-            'rotate' : 0,
-            'baseRotate':0
+            'rotate' : 0
         };
         this.drawImgByStatus(this.canvas.width / 2, this.canvas.height / 2);
     };
@@ -354,7 +355,7 @@ init.prototype.drawImgByMove = function(x, y) {
     this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.lastStatus.translateX, this.lastStatus.translateY);
-    this.ctx.rotate((this.lastStatus.baseRotate + this.imgStatus.rotate) * Math.PI / 180);
+    this.ctx.rotate((this.imgStatus.baseRotate + this.imgStatus.rotate) * Math.PI / 180);
     this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
     this.ctx.drawImage(this.pic, this.lastStatus.imgX, this.lastStatus.imgY, this.pic.width, this.pic.height);
     this.ctx.restore();
@@ -384,7 +385,7 @@ init.prototype.drawImgByStatus = function (x, y,type) {
         this.ctx.fillStyle = '#fff';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(x, y);
-        this.ctx.rotate((this.lastStatus.baseRotate + this.imgStatus.rotate) * Math.PI / 180);
+        this.ctx.rotate((this.imgStatus.baseRotate + this.imgStatus.rotate) * Math.PI / 180);
         this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
         this.ctx.drawImage(this.pic, imgX, imgY, this.pic.width, this.pic.height);
         this.ctx.restore();
@@ -452,20 +453,22 @@ init.prototype.getPhotoOrientation = function(img){
     return orient;
 }
 init.prototype.rotateImg= function(orient) {
+    let rotate = 0;
     if(orient && orient != 1){  
         // 旋转处理  
         switch(orient){  
             case 6://需要顺时针（向左）90度旋转  
-                this.lastStatus.baseRotate = 90
+                rotate = 90
                 break;  
             case 8://需要逆时针（向右）90度旋转  
-                this.lastStatus.baseRotate = -90
+                rotate = -90
                 break;  
             case 3://需要180度旋转  
-                this.lastStatus.baseRotate = -180
+                rotate = -180
                 break;  
         }         
-    } 
+    }
+    return rotate;
 };
 let poster = new init();
 poster.uploadFile()
