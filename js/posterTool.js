@@ -22,6 +22,8 @@ init.prototype.draw_bg= function(){
         this.setDrawSize();
         this.canvas.height= this.draw_h;
         this.canvas.width= this.draw_w;
+        this.ctx.fillStyle = '#fff';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.highQulity();
         this.ctx.drawImage(this.img,0,0,this.draw_w,this.draw_h);
     }
@@ -346,6 +348,8 @@ init.prototype.drawImgByMove = function(x, y) {
     // console.log(this.lastStatus.translateX, this.lastStatus.translateY)
     // this.lastStatus.translateX = this.lastStatus.translateX > this.lastStatus.img?Math.abs(this.lastStatus.imgX):this.lastStatus.translateX
     // this.lastStatus.translateY = this.lastStatus.translateY > this.lastStatus.imgY?Math.abs(this.lastStatus.imgY):this.lastStatus.translateY
+    this.ctx.fillStyle = '#fff';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.translate(this.lastStatus.translateX, this.lastStatus.translateY);
     this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
     this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
@@ -374,6 +378,8 @@ init.prototype.drawImgByStatus = function (x, y,type) {
         // this.logEvent(imgX)
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.save();
+        this.ctx.fillStyle = '#fff';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.translate(x, y);
         this.ctx.rotate(this.imgStatus.rotate * Math.PI / 180);
         this.ctx.scale(this.imgStatus.scale, this.imgStatus.scale);
